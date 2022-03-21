@@ -23,12 +23,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests urllib json
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-      - name: Upload to Sirv
+
       - uses: igorvaryvoda/gh-action-sirv@main
+      - name: Upload to Sirv
         with:
           clientId: ${{ secrets.clientId }}
           clientSecret: ${{ secrets.clientSecret }}
-          source_dir: 'upload'
+          source_dir: '../upload'
 
     env:
         clientId: ${{ secrets.clientId }}
