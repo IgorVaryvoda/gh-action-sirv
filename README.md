@@ -32,5 +32,5 @@ jobs:
 ```
 - copy the [run.py](https://github.com/IgorVaryvoda/gh-action-sirv/blob/main/run.py) script to the root folder of your repo.
 - create a repo environment called main (if you choose another env name, make sure to change the workflow code to reflect it.)
-- Add clientId & clientSecret env variables. Both can both be found in your (Sirv account settings)[https://my.sirv.com/#/account/settings/api] (create API client)
+- Add clientId & clientSecret env variables. Both can both be found in your [Sirv account settings](https://my.sirv.com/#/account/settings/api) (create API client)
 - edit the workflow yaml (last line) to choose the folder you'd like to upload to Sirv.
