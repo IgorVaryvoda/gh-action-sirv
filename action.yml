@@ -15,5 +15,4 @@ inputs:
     required: true
     description: 'directory to upload'
 runs:
-  using: 'python3.10'
   main: 'dist/run.py'
