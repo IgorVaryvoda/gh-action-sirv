@@ -21,8 +21,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests urllib json
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
-      - run: |
           python run.py
         env:
           clientId: ${{ secrets.clientId }}
