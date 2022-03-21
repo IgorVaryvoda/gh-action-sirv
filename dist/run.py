@@ -2,7 +2,6 @@ import os
 import requests
 import json
 import sys
-from urllib.parse import urlparse
 
 token =''
 source_dir = os.environ['source_dir']
