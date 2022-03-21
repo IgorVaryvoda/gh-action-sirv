@@ -2,32 +2,18 @@
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
 name: Sirv uploader
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v2
-      with:
-        python-version: "3.10"
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install requests urllib json
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Lint with flake8
-      run: |
-        python run.py
-    env:
-        clientId: ${{ secrets.clientId }}
-        clientSecret: ${{secrets.clientSecret}}
+description: 'Upload directory to Sirv'
+author: 'Igor Varyvoda'
+inputs:
+  clientId:
+    description: 'Sirv API key id'
+    required: true
+  clientSecret:
+    description: 'Sirv API secret'
+    required: true
+  source_dir:
+    required: true
+    description: 'directory to upload'
+runs:
+  using: 'python3.10'
+  main: 'dist/run.py'
