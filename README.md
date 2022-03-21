@@ -1,5 +1,5 @@
 Here's an example of how to automatically upload images to Sirv from a folder.
-- Create a .github/workflows/sirv.yml file
+- Create a .github/workflows/sirv-upload.yml file
 ```yaml
 name: Sirv uploader
 on:
