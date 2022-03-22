@@ -21,3 +21,4 @@ jobs:
           clientId: ${{ secrets.clientId }}
           clientSecret: ${{ secrets.clientSecret}}
           source_dir: 'upload'
+          output_dir: 'upload'
