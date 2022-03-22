@@ -26,6 +26,16 @@ jobs:
           source_dir: 'upload'
           output_dir: 'upload'
 ```
-- create a repo environment called main (if you choose another env name, make sure to change the workflow code to reflect it.)
 - Add clientId & clientSecret env variables. Both can both be found in your [Sirv account settings](https://my.sirv.com/#/account/settings/api) (create API client)
-- edit the workflow yaml (last line) to choose the folder you'd like to upload to Sirv.
+## Action inputs
+
+The following settings must be passed as environment variables as shown in the example above.
+
+| name                    | description                                                  |
+| ----------------------- | ------------------------------------------------------------ |
+| `clientId`            | (Required) Your Sirv client ID key. [Get it here.](https://my.sirv.com/#/account/settings/api) |
+| `clientSecret` | (Required) Your Sirv client secret. [Get it here.](https://my.sirv.com/#/account/settings/api) |
+| `source_dir`            | (Required) The local directory (or file) you wish to upload to Sirv. |
+| `output_dir`       | (Optional) The destination directory in Sirv |
+
+
