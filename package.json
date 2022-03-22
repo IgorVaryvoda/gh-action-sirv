@@ -1,0 +1,25 @@
+{
+  "name": "gh-action-sirv",
+  "description": "Upload directory to Sirv",
+  "version": "0.1",
+  "main": "index.js",
+  "license": "MIT",
+  "repository": "https://github.com/igorvaryvoda/gh-action-sirv",
+  "author": "Igor Varyvoda <igor@varyvoda.com>",
+  "scripts": {
+    "package": "ncc build index.js -o dist"
+  },
+  "dependencies": {
+    "@actions/core": "^1.2.6",
+    "aws-sdk": "^2.641.0",
+    "klaw-sync": "^6.0.0",
+    "mime-types": "^2.1.26"
+  },
+  "devDependencies": {
+    "@zeit/ncc": "^0.21.1",
+    "prettier": "^1.19.1"
+  },
+  "prettier": {
+    "singleQuote": true
+  }
+}
