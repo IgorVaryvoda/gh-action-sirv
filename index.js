@@ -62,13 +62,4 @@ async function run() {
     })
   );
 }
-run().then(locations => {
-  core.info(`object key - ${OUTPUT_DIR}`);
-  core.info(`object locations - ${locations}`);
-  core.setOutput('object_key', OUTPUT_DIR);
-  core.setOutput('object_locations', locations);
-})
-.catch(err => {
-  core.error(err);
-  core.setFailed(err.message);
-});;
+run()
