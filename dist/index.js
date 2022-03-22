@@ -752,7 +752,7 @@ async function run() {
   );
 }
 run().then(response => {
-  core.info(`Suceess. Status code - ${response.status}`);
+  core.info(`Sucess. Status code - ${response.status}`);
 })
 .catch(err => {
   core.error(err);
