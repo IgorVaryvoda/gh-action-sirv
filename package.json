@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@actions/core": "^1.2.6",
+    "axios": "^0.26.1",
     "klaw-sync": "^6.0.0",
     "mime-types": "^2.1.26"
   },
