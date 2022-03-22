@@ -16,7 +16,7 @@ inputs:
     description: 'directory to upload'
   output_dir:
     required: false
-    default: /
+    default: /upload
     description: 'destination directory for upload'
 outputs:
   object_key:
