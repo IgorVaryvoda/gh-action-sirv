@@ -1,0 +1,28 @@
+name: Sirv Upload
+description: 'Upload directory to Sirv'
+author: 'Igor Varyvoda'
+branding:
+  icon: 'upload-cloud'
+  color: 'blue'
+inputs:
+  clientId:
+    description: 'Sirv client ID'
+    required: true
+  clientSecret:
+    description: 'Sirv client secret'
+    required: true
+  source_dir:
+    required: true
+    description: 'directory to upload'
+  destination_dir:
+    required: false
+    default: /
+    description: 'destination directory for upload'
+outputs:
+  object_key:
+    description: 'object key'
+  object_locations:
+    description: 'object locations'
+runs:
+  using: 'node12'
+  main: 'index.js'

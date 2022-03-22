@@ -14,15 +14,10 @@ jobs:
     environment: main
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v3
+      - uses: igorvaryvoda/gh-action-sirv@master
+        name: Upload to Sirv
+        id: Sirv
         with:
-          python-version: "3.10"
-      - run: |
-          python -m pip install --upgrade pip
-          pip install requests
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          python run.py
-        env:
           clientId: ${{ secrets.clientId }}
-          clientSecret: ${{ secrets.clientSecret }}
+          clientSecret: ${{ secrets.clientSecret}}
           source_dir: 'upload'
