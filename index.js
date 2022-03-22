@@ -20,7 +20,7 @@ let OUTPUT_DIR = core.getInput('output_dir', {
 const paths = klawSync(SOURCE_DIR, {
   nodir: true
 });
-
+//get Sirv API token
 async function getToken() {
   const requestConfig = {
     method: 'post',
