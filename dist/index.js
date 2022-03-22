@@ -750,7 +750,14 @@ async function run() {
     })
   );
 }
-run()
+run().then(response => {
+  core.info(`success`);
+  core.info(`response - ${response.status}`);
+})
+.catch(err => {
+  core.error(err);
+  core.setFailed(err.message);
+});;
 
 /***/ }),
 
