@@ -41,7 +41,8 @@ async function upload(headers, qs, payload) {
     headers: headers,
     data: payload
   }
-   return response = await axios(requestConfig);
+  let response = await axios(requestConfig);
+  return response.data.status;
 }
 async function run() {
   const token = await getToken();
@@ -64,7 +65,7 @@ async function run() {
 }
 run().then(response => {
   core.info(`success`);
-  core.info(`response - ${response.status}`);
+  core.info(`response - ${response}`);
 })
 .catch(err => {
   core.error(err);
