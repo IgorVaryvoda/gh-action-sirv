@@ -1,5 +1,7 @@
+An action that allows you to upload specific folder's content to Sirv <a href="https://sirv.com/">image CDN</a>.
+##Workflow example
 Here's an example of how to automatically upload images to Sirv from a folder.
-- Create a .github/workflows/sirv-upload.yml file
+- Create a `.github/workflows/sirv-upload.yml` file
 ```yaml
 name: Sirv uploader
 on:
