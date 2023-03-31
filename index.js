@@ -95,15 +95,17 @@ async function run() {
       sirvFiles = sirvFiles.concat(response.contents);
       continuation = response.continuation;
     } while (continuation);
-
+    console.log("Fetched files from Sirv:", sirvFiles);
 
     // Get the list of file paths in the repository
     const repoFiles = paths.map(p => '/' + path.join(OUTPUT_DIR, path.relative(sourceDir, p.path)));
+    console.log("Files in the repository:", repoFiles);
 
     // Identify images that are no longer in the repository
     const imagesToDelete = sirvFiles
       .filter(file => !file.isDirectory && !repoFiles.includes(file.filename))
       .map(file => file.filename);
+    console.log("Images to delete:", imagesToDelete);
 
     // Call the deleteImage function for each image that needs to be deleted
     const deletePromises = imagesToDelete.map(image => {
@@ -116,6 +118,7 @@ async function run() {
 
     // Wait for all delete operations to complete and return their status codes
     const deleteStatusCodes = await Promise.all(deletePromises);
+    console.log("Deleted images, status codes:", deleteStatusCodes);
     result.purge = true;
     result.deleteStatusCodes = deleteStatusCodes;
     } else {
@@ -141,6 +144,7 @@ async function run() {
     );
 
     result.uploadStatusCodes = uploadStatusCodes;
+    console.log("Uploaded images, status codes:", uploadStatusCodes);
 
     return result;
   }
