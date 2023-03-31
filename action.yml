@@ -21,7 +21,7 @@ inputs:
   purge:
     required: false
     default: false
-    description: 'destination directory for upload'
+    description: 'Delete files from Sirv if no longer present in repo'
 outputs:
   object_key:
     description: 'object key'
