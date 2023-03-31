@@ -29,6 +29,7 @@ jobs:
           clientSecret: ${{ secrets.clientSecret}}
           source_dir: 'upload'
           output_dir: 'upload'
+          purge: false
 ```
 - Create a Sirv API client. You can do this in your [Sirv account settings](https://my.sirv.com/#/account/settings/api).
 - Add `clientId` and `clientSecret` ENV variables in your repo settings.
@@ -43,5 +44,6 @@ The following settings must be passed as environment variables as shown in the e
 | `clientSecret` | (Required) Your Sirv client secret. [Get it here.](https://my.sirv.com/#/account/settings/api) |
 | `source_dir`            | (Required) The local directory (or file) you wish to upload to Sirv. |
 | `output_dir`       | (Optional) The destination directory in Sirv. |
+| `purge`       | (Optional) Sync your repo images with Sirv. Setting this to true will delete files from Sirv which aren't present in your repo.  |
 
 
