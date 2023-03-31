@@ -5,21 +5,32 @@ const { lookup } = require('mime-types');
 const axios = require('axios');
 var fs = require("fs");
 
-const clientId = core.getInput('clientId', {
-  required: true
-});
-const clientSecret = core.getInput('clientSecret', {
-  required: true
-});
-const SOURCE_DIR = core.getInput('source_dir', {
-  required: true
-});
-const PURGE = core.getInput('purge', {
-  required: false
-});
-let OUTPUT_DIR = core.getInput('output_dir', {
-  required: false
-});
+// const clientId = core.getInput('clientId', {
+//   required: true
+// });
+// const clientSecret = core.getInput('clientSecret', {
+//   required: true
+// });
+// const SOURCE_DIR = core.getInput('source_dir', {
+//   required: true
+// });
+// const PURGE = core.getInput('purge', {
+//   required: false
+// });
+// let OUTPUT_DIR = core.getInput('output_dir', {
+//   required: false
+// });
+// const paths = klawSync(SOURCE_DIR, {
+//   nodir: true
+// });
+
+
+
+const clientId = 'AA8FWTogaVpZ95HVBMLZQjYG4TY';
+const clientSecret = 'HuclDMqgGAGpa0MVfylSEJ3WUBKbygQhRX7fuIdtot7naYPHVjOfAmsRrIkR4d82LDcTGm7IXYPRgblYm580AA=='
+const SOURCE_DIR = 'upload'
+const PURGE = true
+let OUTPUT_DIR = 'upload'
 const paths = klawSync(SOURCE_DIR, {
   nodir: true
 });
@@ -35,8 +46,13 @@ async function getToken() {
       'Content-Type': 'application/json'
     },
   }
-  let response = await axios(requestConfig);
-  return response.data.token;
+  try {
+    let response = await axios(requestConfig);
+    return response.data.token;
+  }
+  catch (e) {
+    console.warn('Error:', e)
+  }
 }
 async function axiosWithTokenRefresh(requestConfig) {
   if (!token || (tokenExpiration && Date.now() >= tokenExpiration)) {
@@ -55,18 +71,28 @@ async function upload(headers, qs, payload) {
     headers: headers,
     data: payload
   }
-  let response = await axiosWithTokenRefresh(requestConfig);
-  return response.status
+  try {
+    let response = await axiosWithTokenRefresh(requestConfig);
+    return response.status
+  }
+  catch(e) {
+    console.warn('Error:', e)
+  }
 }
 async function deleteImage(headers, filename) {
   const requestConfig = {
     method: 'post',
     url: 'https://api.sirv.com/v2/files/delete',
-    params: { filename },
+    params: { filename: '/' + OUTPUT_DIR + '/' + filename },
     headers: headers,
   };
-  let response = await axiosWithTokenRefresh(requestConfig);
-  return response.status;
+  try {
+    let response = await axiosWithTokenRefresh(requestConfig);
+    return response.status;
+  }
+  catch(e) {
+    console.warn('Error:', e)
+  }
 }
 
 
@@ -78,16 +104,21 @@ async function run() {
     const requestConfig = {
       method: 'get',
       url: 'https://api.sirv.com/v2/files/readdir',
-      params: { dirname, continuation },
+      params: { dirname: '/' + dirname, continuation },
       headers: {
         authorization: 'Bearer ' + token,
         'content-type': 'application/json',
       },
     };
-    let response = await axiosWithTokenRefresh(requestConfig);
-    // Filter out directories from the response
-    const files = response.data.contents.filter(entry => !entry.isDirectory);
-    return { files, continuation: response.data.continuation };
+    try {
+      let response = await axiosWithTokenRefresh(requestConfig);
+      // Filter out directories from the response
+      const files = response.data.contents.filter(entry => !entry.isDirectory);
+      return { files, continuation: response.data.continuation };
+    }
+    catch(e) {
+      console.warn('Error:', e)
+    }
   }
 
   if (PURGE) {
