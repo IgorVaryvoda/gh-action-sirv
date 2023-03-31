@@ -22,3 +22,4 @@ jobs:
           clientSecret: ${{ secrets.clientSecret}}
           source_dir: 'upload'
           output_dir: 'upload'
+          purge: true
