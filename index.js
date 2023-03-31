@@ -132,8 +132,12 @@ async function run() {
     })
   );
 }
-run().then(response => {
-  core.info(`Sucess. Status code - ${response}`);
+run().then((response) => {
+  if (PURGE === 'true') {
+    core.info(`Deleted images. Status codes - ${response}`);
+  } else {
+    core.info("Purge not enabled, no images were deleted.");
+  }
 })
 .catch(err => {
   core.error(err);
