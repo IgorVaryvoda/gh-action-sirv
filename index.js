@@ -112,6 +112,12 @@ async function run() {
       };
       return deleteImage(headers, image);
     });
+    // Wait for all delete operations to complete and return their status codes
+    const deleteStatusCodes = await Promise.all(deletePromises);
+    return { purge: true, statusCodes: deleteStatusCodes };
+    } else {
+      return { purge: false };
+    }
 
     // Wait for all delete operations to complete
     await Promise.all(deletePromises);
@@ -132,9 +138,9 @@ async function run() {
     })
   );
 }
-run().then((response) => {
-  if (PURGE === 'true') {
-    core.info(`Deleted images. Status codes - ${response}`);
+run().then((result) => {
+  if (result.purge) {
+    core.info(`Deleted images. Status codes - ${result.statusCodes}`);
   } else {
     core.info("Purge not enabled, no images were deleted.");
   }
