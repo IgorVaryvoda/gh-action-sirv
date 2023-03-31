@@ -90,7 +90,7 @@ async function run() {
     return { files, continuation: response.data.continuation };
   }
 
-  if (PURGE === 'true') {
+  if (PURGE) {
     // Fetch all files from Sirv
     let sirvFiles = [];
     let continuation = null;
