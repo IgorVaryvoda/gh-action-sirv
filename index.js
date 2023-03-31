@@ -71,6 +71,7 @@ async function deleteImage(headers, filename) {
 
 async function run() {
   const sourceDir = path.join(process.cwd(), SOURCE_DIR);
+  let result = {};
   // Function to get files from Sirv
   async function getSirvFiles(dirname, continuation) {
     const requestConfig = {
@@ -112,40 +113,47 @@ async function run() {
       };
       return deleteImage(headers, image);
     });
+
     // Wait for all delete operations to complete and return their status codes
     const deleteStatusCodes = await Promise.all(deletePromises);
-    return { purge: true, statusCodes: deleteStatusCodes };
+    result.purge = true;
+    result.deleteStatusCodes = deleteStatusCodes;
     } else {
-      return { purge: false };
+      result.purge = false;
     }
+    // Upload functionality
+    const uploadStatusCodes = await Promise.all(
+      paths.map((p) => {
+        const fileStream = fs.createReadStream(p.path);
+        if (!OUTPUT_DIR) {
+          OUTPUT_DIR = SOURCE_DIR;
+        }
+        const qs = {
+          filename: "/" + path.join(OUTPUT_DIR, path.relative(sourceDir, p.path)),
+        };
+        const payload = fileStream;
+        const headers = {
+          authorization: "Bearer " + token,
+          ContentType: lookup(p.path) || "image/jpeg",
+        };
+        return upload(headers, qs, payload);
+      })
+    );
 
-    // Wait for all delete operations to complete
-    await Promise.all(deletePromises);
+    result.uploadStatusCodes = uploadStatusCodes;
+
+    return result;
   }
-  return Promise.all(
-    paths.map(p => {
-      const fileStream = fs.createReadStream(p.path);
-      if (!OUTPUT_DIR) {
-        OUTPUT_DIR = SOURCE_DIR
-      }
-      const qs = {'filename': '/'+path.join(OUTPUT_DIR, path.relative(sourceDir, p.path))};
-      const payload = fileStream;
-      const headers = {
-        authorization: 'Bearer ' + token,
-        ContentType: lookup(p.path) || 'image/jpeg'
-      };
-      return upload(headers, qs, payload);
-    })
-  );
-}
-run().then((result) => {
-  if (result.purge) {
-    core.info(`Deleted images. Status codes - ${result.statusCodes}`);
-  } else {
-    core.info("Purge not enabled, no images were deleted.");
-  }
-})
-.catch(err => {
-  core.error(err);
-  core.setFailed(err.message);
-});;
+  run()
+  .then((result) => {
+    if (result.purge) {
+      core.info(`Deleted images. Status codes - ${result.deleteStatusCodes}`);
+    } else {
+      core.info("Purge not enabled, no images were deleted.");
+    }
+    core.info(`Uploaded images. Status codes - ${result.uploadStatusCodes}`);
+  })
+  .catch((err) => {
+    core.error(err);
+    core.setFailed(err.message);
+  });
