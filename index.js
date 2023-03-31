@@ -69,6 +69,7 @@ async function deleteImage(headers, filename) {
   return response.status;
 }
 
+
 async function run() {
   const sourceDir = path.join(process.cwd(), SOURCE_DIR);
   let result = {};
@@ -84,15 +85,18 @@ async function run() {
       },
     };
     let response = await axiosWithTokenRefresh(requestConfig);
-    return response.data;
+    // Filter out directories from the response
+    const files = response.data.contents.filter(entry => !entry.isDirectory);
+    return { files, continuation: response.data.continuation };
   }
+
   if (PURGE === 'true') {
     // Fetch all files from Sirv
     let sirvFiles = [];
     let continuation = null;
     do {
       const response = await getSirvFiles(OUTPUT_DIR, continuation);
-      sirvFiles = sirvFiles.concat(response.contents);
+      sirvFiles = sirvFiles.concat(response.files);
       continuation = response.continuation;
     } while (continuation);
     console.log("Fetched files from Sirv:", sirvFiles);
