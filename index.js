@@ -5,6 +5,25 @@ const { lookup } = require('mime-types');
 const axios = require('axios');
 var fs = require("fs");
 
+const clientId = core.getInput('clientId', {
+  required: true
+});
+const clientSecret = core.getInput('clientSecret', {
+  required: true
+});
+const SOURCE_DIR = core.getInput('source_dir', {
+  required: true
+});
+const PURGE = core.getInput('purge', {
+  required: false
+});
+let OUTPUT_DIR = core.getInput('output_dir', {
+  required: false
+});
+const paths = klawSync(SOURCE_DIR, {
+  nodir: true
+});
+
 let token = null;
 let tokenExpiration = null;
 //get Sirv API token
